@@ -1,0 +1,119 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install Python 3.11.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.4'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Package application for macOS ${{ matrix.arch }}
+        run: npx electron-forge make --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-zip,@electron-forge/maker-dmg" --icon=public/avatar
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-app-${{ matrix.arch }}-zip
+          path: ${{ github.workspace }}/**/make/**/*.zip
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-app-${{ matrix.arch }}-dmg
+          path: ${{ github.workspace }}/**/make/**/*.dmg
+
+  # build-linux:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       arch: [x64, arm64]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '22'
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Build application
+  #       run: npm run build
+
+  #     - name: Package application for Linux ${{ matrix.arch }}
+  #       run: npx electron-forge make --platform=linux --arch=${{ matrix.arch }} --targets="@electron-forge/maker-deb,@electron-forge/maker-zip" --icon=public/avatar
+
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: electron-app-${{ matrix.arch }}-deb
+  #         path: ${{ github.workspace }}/**/make/**/*.deb
+
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: electron-app-${{ matrix.arch }}-zip
+  #         path: ${{ github.workspace }}/**/make/**/*.zip
+
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        arch: [x64, ia32]
+        # target: [squirrel, zip]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Package application for Windows ${{ matrix.arch }}
+        run: npx electron-forge make --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-squirrel,@electron-forge/maker-zip" --icon=public/avatar
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-app-${{ matrix.arch }}-exe
+          path: ${{ github.workspace }}/**/make/**/*.exe
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: electron-app-${{ matrix.arch }}-zip
+          path: ${{ github.workspace }}/**/make/**/*.zip
