@@ -5,6 +5,7 @@
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
   "scripts": {
+    "build": "vite build",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "package-win": "electron-forge package --platform=win32 --arch=x64",
