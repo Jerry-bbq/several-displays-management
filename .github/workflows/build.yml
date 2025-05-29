@@ -28,8 +28,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build application
-        run: npm run build
+      # - name: Build application
+      #   run: npm run build
 
       - name: Package application for macOS ${{ matrix.arch }}
         run: npx electron-forge make --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-zip,@electron-forge/maker-dmg" --icon=public/avatar
@@ -100,8 +100,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build application
-        run: npm run build
+      # - name: Build application
+      #   run: npm run build
 
       - name: Package application for Windows ${{ matrix.arch }}
         run: npx electron-forge make --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-squirrel,@electron-forge/maker-zip" --icon=public/avatar
