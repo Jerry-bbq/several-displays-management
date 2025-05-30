@@ -6,45 +6,45 @@ on:
       - main
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        arch: [x64, arm64]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  # build-macos:
+  #   runs-on: macos-latest
+  #   strategy:
+  #     matrix:
+  #       arch: [x64, arm64]
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '22'
 
-      - name: Install Python 3.11.4
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11.4'
+  #     - name: Install Python 3.11.4
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.11.4'
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      # - name: Build application
-      #   run: npm run build
+  #     # - name: Build application
+  #     #   run: npm run build
 
-      - name: Package application for macOS ${{ matrix.arch }}
-        run: npx electron-forge make --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-zip,@electron-forge/maker-dmg" --icon=public/avatar
+  #     - name: Package application for macOS ${{ matrix.arch }}
+  #       run: npx electron-forge make --platform=darwin --arch=${{ matrix.arch }} --targets="@electron-forge/maker-zip,@electron-forge/maker-dmg" --icon=public/avatar
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: electron-app-${{ matrix.arch }}-zip
-          path: ${{ github.workspace }}/**/make/**/*.zip
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: electron-app-${{ matrix.arch }}-zip
+  #         path: ${{ github.workspace }}/**/make/**/*.zip
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: electron-app-${{ matrix.arch }}-dmg
-          path: ${{ github.workspace }}/**/make/**/*.dmg
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: electron-app-${{ matrix.arch }}-dmg
+  #         path: ${{ github.workspace }}/**/make/**/*.dmg
 
   # build-linux:
   #   runs-on: ubuntu-latest
