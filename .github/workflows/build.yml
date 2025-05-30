@@ -104,7 +104,7 @@ jobs:
       #   run: npm run build
 
       - name: Package application for Windows ${{ matrix.arch }}
-        run: npx electron-forge make --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-squirrel,@electron-forge/maker-zip" --icon=public/avatar
+        run: npx electron-forge make --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-squirrel,@electron-forge/maker-zip"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3

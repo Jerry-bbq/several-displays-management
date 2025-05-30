@@ -99,4 +99,4 @@ jobs:
       #   run: npm run build
 
       - name: Package application for Windows ${{ matrix.arch }} ${{ matrix.target }}
-        run: npx electron-forge publish --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}" --icon=public/avatar
+        run: npx electron-forge publish --platform=win32 --arch=${{ matrix.arch }} --targets="@electron-forge/maker-${{ matrix.target }}"
