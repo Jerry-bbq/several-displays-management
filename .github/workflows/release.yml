@@ -19,8 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: fix bug
-        run: export NODE_OPTIONS=--disable-warning=DEP0174  
       - run: npm ci
       - name: Publish app
         env:
